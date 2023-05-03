@@ -1,6 +1,9 @@
-import Image from 'next/image'
+
 import { Inter } from 'next/font/google'
 import Wordcloud from '@/components/wordcloud'
+import DatepickerInput from '@/components/datepicker'
+import { useRef } from 'react'
+import { DoughnutChart } from '@/components/chart/donut_chart'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -581,14 +584,64 @@ const todayData = {
 }
 
 export default function Home() {
-  return (
-    <>
-        {todayData && <Wordcloud data={todayData.all.map(word => {
-            return {
-                text: word.word,
-                value: word.count
-            }
-        })} />}
-    </>
-  )
+    const allRef = useRef<HTMLDivElement>(null)
+    const getData = (date : Date) => {
+  
+    }
+    return (
+        <div className={inter.className}>
+            <DatepickerInput onChange={(date) => getData(date)} />
+            {todayData && todayData.total?.length > 0 && <div className='flex justify-between gap-3 relative items-center' ref={allRef}>
+                <Wordcloud 
+                    width={allRef.current?.clientWidth ? allRef.current?.clientWidth / 3 * 2 :700}
+                    data={todayData.total?.map(word => {
+                        return {
+                            text: word.word,
+                            value: word.count
+                        }
+                    })} 
+                />
+                <div className='w-1/3'>
+                    <DoughnutChart data={todayData.total}  />
+                </div>
+            </div>}
+            <h1 className='pt-4 pb-1 font-lg'>네이버 검색어 트렌드</h1>
+            <table className='border border-solid border-gray-200 rounded-sm border-spacing-0 border-collapse w-full'>
+                <thead>
+                    <tr>
+                        <th className='font-bold bg-gray-100 text-left p-2 w-1/3 md:w-1/4 lg:w-1/5'></th>
+                        <th className='font-bold bg-gray-100 text-center p-2'>주요 키워도 TOP 30</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {todayData.all && todayData.all?.length > 0 && <tr>
+                    <td className='font-bold text-left p-2 text-sm border-t border-gray-200'> 전체</td>
+                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.all?.map((word, index) => {return `${index > 0 ? ', ' :''}${word.word}`})}</td>
+                </tr>}
+                {todayData.snack && todayData.snack?.length > 0 && <tr>
+                    <td className='font-bold text-left p-2 text-sm border-t border-gray-200'> 과자/베이커리</td>
+                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.snack?.map((word, index) => {return `${index > 0 ? ', ' :''}${word.word}`})}</td>
+                </tr>}
+                {todayData.mealkit && todayData.mealkit?.length > 0 && <tr>
+                    <td className='font-bold text-left p-2 text-sm border-t border-gray-200'>냉동/간편 조리 식품</td>
+                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.mealkit?.map((word, index) => {return `${index > 0 ? ', ' :''}${word.word}`})}</td>
+                </tr>}
+                </tbody>
+            </table>
+            {/* {todayData && todayData.all?.length > 0 && <table className='border border-solid border-gray-200 rounded-sm border-spacing-0 border-collapse w-full'>
+                <thead>
+                    <tr>
+                        <th className='font-bold bg-gray-100 text-left p-2'>키워드</th>
+                        <th className='font-bold bg-gray-100 text-right p-2'>노출횟수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {todayData.all?.map(word => <tr key={word.word}>
+                    <td className='text-left p-2 text-sm border-t border-gray-200'>{word.word}</td>
+                    <td className='font-bold text-right p-2 text-blue-500 text-sm border-t border-gray-200'>{word.count}</td>
+                </tr>)}
+                </tbody>
+            </table>} */}
+        </div>
+    )
 }
