@@ -4,6 +4,7 @@ import Wordcloud from '@/components/wordcloud'
 import DatepickerInput from '@/components/datepicker'
 import { useRef } from 'react'
 import { DoughnutChart } from '@/components/chart/donut_chart'
+import Search from '@/components/layout/search'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -590,11 +591,14 @@ export default function Home() {
     }
     return (
         <div className={inter.className}>
-            <DatepickerInput onChange={(date) => getData(date)} />
-            {todayData && todayData.total?.length > 0 && <div className='flex justify-between gap-3 relative items-center' ref={allRef}>
+            <div className='flex justify-between'>
+                <DatepickerInput onChange={(date) => getData(date)} />
+                <Search />
+            </div>
+            {todayData && todayData.all?.length > 0 && <div className='flex justify-between gap-3 relative items-center' ref={allRef}>
                 <Wordcloud 
                     width={allRef.current?.clientWidth ? allRef.current?.clientWidth / 3 * 2 :700}
-                    data={todayData.total?.map(word => {
+                    data={todayData.all?.map(word => {
                         return {
                             text: word.word,
                             value: word.count
@@ -602,7 +606,7 @@ export default function Home() {
                     })} 
                 />
                 <div className='w-1/3'>
-                    <DoughnutChart data={todayData.total}  />
+                    <DoughnutChart data={todayData.all.filter((word, index) => index < 10)}  />
                 </div>
             </div>}
             <h1 className='pt-4 pb-1 font-lg'>네이버 검색어 트렌드</h1>
@@ -614,9 +618,9 @@ export default function Home() {
                     </tr>
                 </thead>
                 <tbody>
-                {todayData.all && todayData.all?.length > 0 && <tr>
+                {todayData.total && todayData.total?.length > 0 && <tr>
                     <td className='font-bold text-left p-2 text-sm border-t border-gray-200'> 전체</td>
-                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.all?.map((word, index) => {return `${index > 0 ? ', ' :''}${word.word}`})}</td>
+                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.total?.map((word, index) => {return `${index > 0 ? ', ' :''}${word.word}`})}</td>
                 </tr>}
                 {todayData.snack && todayData.snack?.length > 0 && <tr>
                     <td className='font-bold text-left p-2 text-sm border-t border-gray-200'> 과자/베이커리</td>
