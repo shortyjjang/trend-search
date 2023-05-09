@@ -11,7 +11,7 @@
 @media (prefers-color-scheme: dark) {
 }
 
-.react-datepicker-popper {background:#fff;width:100%;max-width:250px;padding:10px;}
+.react-datepicker-popper {background:#fff;width:100%;max-width:250px;padding:10px;--tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);z-index:10;}
 .react-datepicker__week, .react-datepicker__day-names {width:100%;display:grid;grid-template-columns:repeat(7, 1fr);grid-gap:10px;}
 .react-datepicker__day {font-size:13px;border-radius:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .react-datepicker__day--disabled {color:#999}

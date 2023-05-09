@@ -17,7 +17,7 @@ export default function DatepickerInput({onChange}:{onChange: (date:Date) => voi
                     setSelectDate(date ? date : new Date())
                     onChange(date ? date : new Date())
                 }}
-                className='cursor-pointer text-lg font-bold rounded-sm bg-transparent text-center'
+                className='cursor-pointer text-lg font-bold rounded-sm bg-transparent text-left'
             />
         </div>
     );

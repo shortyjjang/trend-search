@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { COLORS } from '../wordcloud/types';
+import { useRouter } from 'next/router';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -38,27 +39,31 @@ type KeywordProps = {
 export function DoughnutChart({data}: {
     data: KeywordProps[]
 }) {
-    if(data.length < 1) return null
-    return <Doughnut data={{
-        labels: data.map(word => word.word),
-        datasets: [
-            {
-              label: '노출횟수',
-              data: data.map(word => word.count),
-              backgroundColor: data.map(data => COLORS[Math.floor(Math.random() * 10)]),
-              borderColor: data.map(data => COLORS[Math.floor(Math.random() * 10)]),
-              borderWidth: 1,
-            },
-        ],
-    }} options={{
-      plugins: {
-        legend: {
-          display: false
-        },
-        title: {
-          display: true,
-          text: '키워드별 노출횟수'
-        }
+  const router = useRouter()
+  if(data.length < 1) return null
+  return <Doughnut data={{
+      labels: data.map(word => word.word),
+      datasets: [
+          {
+            label: '노출횟수',
+            data: data.map(word => word.count),
+            backgroundColor: data.map(data => COLORS[Math.floor(Math.random() * 10)]),
+            borderColor: data.map(data => COLORS[Math.floor(Math.random() * 10)]),
+            borderWidth: 1,
+          },
+      ],
+  }} options={{
+    plugins: {
+      legend: {
+        display: false
       },
-    }}/>;
+      title: {
+        display: true,
+        text: '키워드별 노출횟수'
+      }
+    },
+    onClick: (e, activeEls, chart) => {
+      router.push(`/${chart?.tooltip?.title[0]}`)
+    }
+  }}/>;
 }

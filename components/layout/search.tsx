@@ -19,7 +19,7 @@ export default function Search() {
                     setValue(e.target.value)
                 }}
             />
-            <button onClick={() => onChange(value)}></button>
+            <button onClick={() => onChange(value)} className="bg-blue-500 text-white font-bold text-sm px-4 rounded-sm h-8">검색</button>
         </div>
     )
 }

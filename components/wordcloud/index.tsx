@@ -1,6 +1,7 @@
 import  { useEffect, useState } from 'react';
 import cloud from 'd3-cloud';
 import { WordCloudProps, COLORS, TagsProps } from './types';
+import { useRouter } from 'next/router';
 
 export default function WordCloud({
   data,
@@ -8,7 +9,7 @@ export default function WordCloud({
   height = 600,
 }: WordCloudProps) {
   const [tags, setTags] = useState<TagsProps[] | null>(null)
-
+  const router = useRouter()
   
   useEffect(() => {
     let draw = false
@@ -36,11 +37,13 @@ export default function WordCloud({
       {tags && <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
         <g transform={`translate(${width/2}, ${height/2})`}>
           {tags.map(tag => <text key={tag.text} 
+            onClick={() => router.push(`/${tag.text}`)}
             style={{fontSize: `${tag.size ? tag.size : 10}px`}}
             textAnchor='middle'
             fontFamily='Impact'
             fill={COLORS[Math.floor(Math.random() * 10)]}
             transform={`translate(${tag.x}, ${tag.y}) rotate(${tag.rotate})`}
+            className='cursor-pointer'
           >{tag.text}</text>)}
         </g>
       </svg>}

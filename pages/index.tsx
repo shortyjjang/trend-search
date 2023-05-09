@@ -5,6 +5,7 @@ import DatepickerInput from '@/components/datepicker'
 import { useRef } from 'react'
 import { DoughnutChart } from '@/components/chart/donut_chart'
 import Search from '@/components/layout/search'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -620,15 +621,21 @@ export default function Home() {
                 <tbody>
                 {todayData.total && todayData.total?.length > 0 && <tr>
                     <td className='font-bold text-left p-2 text-sm border-t border-gray-200'> 전체</td>
-                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.total?.map((word, index) => {return `${index > 0 ? ', ' :''}${word.word}`})}</td>
+                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.total?.map((word, index) => {
+                        return <>{index > 0 ? ', ' :''}<Link href={`/${word.word}`}>{word.word}</Link></>
+                    })}</td>
                 </tr>}
                 {todayData.snack && todayData.snack?.length > 0 && <tr>
                     <td className='font-bold text-left p-2 text-sm border-t border-gray-200'> 과자/베이커리</td>
-                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.snack?.map((word, index) => {return `${index > 0 ? ', ' :''}${word.word}`})}</td>
+                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.snack?.map((word, index) => {
+                        return <>{index > 0 ? ', ' :''}<Link href={`/${word.word}`}>{word.word}</Link></>
+                    })}</td>
                 </tr>}
                 {todayData.mealkit && todayData.mealkit?.length > 0 && <tr>
                     <td className='font-bold text-left p-2 text-sm border-t border-gray-200'>냉동/간편 조리 식품</td>
-                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.mealkit?.map((word, index) => {return `${index > 0 ? ', ' :''}${word.word}`})}</td>
+                    <td className='text-left p-2 text-xs border-t border-gray-200'>{todayData.mealkit?.map((word, index) => {
+                        return <>{index > 0 ? ', ' :''}<Link href={`/${word.word}`}>{word.word}</Link></>
+                    })}</td>
                 </tr>}
                 </tbody>
             </table>
